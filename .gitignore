@@ -1,0 +1,11 @@
+/node_modules
+/build
+/client/node_modules
+/server/bin
+/server/.env
+
+.DS_Store
+
+
+yarn-debug.log*
+yarn-error.log*
