@@ -3,22 +3,20 @@ export class User{
     username='';
     password='';
     email='';
-    userRole=0;
+    accountRoleId=0;
  
     constructor(
         userId?: number, 
         username?: string, 
-        password?: string, 
-     //   firstName?: string,
-     //   lastName?: string, 
+        password?: string,  
         email?: string, 
-        userRole?: number,
+        accountRoleId?: number,
         ){
             userId && (this.userId=userId);
             username && (this.username=username);
             password && (this.password=password);
             email && (this.email=email);
-            userRole && (this.userRole=userRole);
+            accountRoleId && (this.accountRoleId=accountRoleId);
  
     }
 

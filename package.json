@@ -5,17 +5,21 @@
   "author": "Nathan H Venuto",
   "license": "MIT",
   "scripts": {
-    "start": "node server/index.ts",
-    "client": "yarn run start --prefix client",
-    "server": "nodemon server/index.ts",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run go ./frontend/src/index.tsx",
+    "devfront": "nodemon --exec ts-node -- ./index.ts",
+    "client": "npm run go --prefix frontend",
+    "server": "nodemon --exec ts-node -- ./server/index.ts",
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backendstart": "yarn backend --perfix server"
   },
   "dependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "react": "^16.13.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2",
-    "ts-node": "^8.6.2"
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
   }
 }

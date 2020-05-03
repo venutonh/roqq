@@ -3,21 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@popperjs/core": "^2.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-popper": "^2.2.2",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.0",
+    "reactstrap": "^8.4.1",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "cd .. && yarn backendstart --prefix server",
+    "dev": "concurrently \"yarn server\" \"yarn start\"",
+    "go": "react-scripts start"
   },
-
-
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -34,11 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
-    "@types/node": "^13.9.2",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "ts-node": "^8.7.0",
-    "typescript": "^3.8.3"
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.3"
   }
 }

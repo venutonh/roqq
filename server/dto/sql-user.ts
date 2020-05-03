@@ -1,7 +1,8 @@
 export class SqlUser {
-    user_id: number = 0;
+    account_id: number =0;
     username: string = '';
-    password: string = '';
+    password_hash: string = '';
     email: string = '';
+    account_type_id: number= 0;
     
 }

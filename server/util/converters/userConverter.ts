@@ -3,10 +3,11 @@ import { User } from "../../models/user";
 
 export function userConverter(u: SqlUser){
     return new User(
-        u.user_id,
+        u.account_id,
         u.username,
-        u.password,
-        u.email
+        u.password_hash,
+        u.email,
+        u.account_type_id
         
         );
 

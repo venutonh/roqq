@@ -1,0 +1,17 @@
+USER='roqq_user'
+
+HOST='localhost'
+
+DATABASE='roqqdb'
+
+PASSWORD='jackass000'
+
+PORT=5432
+
+
+
+
+SECRET=SUPERSECRETPASSWORD123
+
+#jwt.verify(token,process.env.SECRET)
+

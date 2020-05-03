@@ -12,5 +12,5 @@ export const pool = new Pool(LocalDbConfig);
   //console.log('response.rows', response.rows);
 //});
 
-//module.exports = pool;
+
 
