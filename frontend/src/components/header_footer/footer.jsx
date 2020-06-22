@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Nav, Navbar, NavItem, NavLink } from 'reactstrap'
+import { Navbar, NavItem, NavLink } from 'reactstrap'
 
 class Footer extends Component {
     render() {

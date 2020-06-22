@@ -1,24 +1,25 @@
 export class Article {
     articleId=0;
-    articleUrl='';
-    commentId=0;
-    supportUrlId=0;
-    starRating=0;
+    articleTitle='';
     authorId=0;
+    articleUrl='';
+    articleMainUrlId=0;
+   // articleDividerUrlId=0;
 
     constructor (
         articleId?:number,
-        articleUrl?:string,
-        commentId?:number,
-        supportUrlId?:number,
-        starRating?:number,
+        articleTitle?:string,
         authorId?:number,
+        articleUrl?:string,
+        articleMainUrlId?:number,
+       // articleDividerUrlId?:number,
         ){
             articleId && (this.articleId = articleId);
-            articleUrl && (this.articleUrl = articleUrl);
-            commentId && (this.commentId = commentId);
-            supportUrlId && (this.supportUrlId = supportUrlId);
-            starRating && (this.starRating = starRating);
+            articleTitle && (this.articleTitle = articleTitle);
             authorId && (this.authorId = authorId);
+            articleUrl && (this.articleUrl = articleUrl);
+            articleMainUrlId && (this.articleMainUrlId = articleMainUrlId);
+           // articleDividerUrlId && (this.articleDividerUrlId = articleDividerUrlId);
+            
         }
 }

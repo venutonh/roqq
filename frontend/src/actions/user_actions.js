@@ -1,38 +1,98 @@
 import axios from 'axios';
 import {
+    //ERROR_GENERATED,
     LOGIN_USER,
     REGISTER_USER,
     AUTH_USER,
-    LOGOUT_USER,
-    ADD_TO_CART_USER,
-    GET_CART_ITEMS_USER,
-    REMOVE_CART_ITEM_USER,
-    ON_SUCCESS_BUY_USER,
-    UPDATE_DATA_USER,
-    CLEAR_UPDATE_USER_DATA
+    FIND_ARTICLE
+    
 } from './types';
+
+// const loginSuccess = user => ({ type: REGISTER_USER, payload : user })
+
+// export function registerUser(dataToSubmit){
+//     return (dispatch) => {
+        
+//            return axios.post(`http://localhost:4444/users/create`,dataToSubmit)
+
+        
+
+//             dispatch(loginSuccess());
+//     }
+// }
+
 
 
 
 
 
 export function registerUser(dataToSubmit){
-    const request = axios.post(`http://localhost:4444/users/create`,dataToSubmit)
-        .then(response => response.data);
-    
-    return {
+    console.log("Inside the action");
+    console.log(dataToSubmit);
+    console.log("outside the action");
+
+
+    return{ 
         type: REGISTER_USER,
-        payload: request
-    }
-}
+        payload: {
+                promise: axios.post(`http://localhost:3333/users/create`,dataToSubmit)
+                .then(response => response.data)
+            }
+     
+}}
+
+
+
+
+
+
+// const simpleLogin = user => ({ type: REGISTER_USER, payload : user })
+
+// export const registerUser = (dataToSubmit) => 
+//     dispatch => 
+//        axios.post(`http://localhost:4444/users/create`,dataToSubmit)
+//         .then(response => response.data)
+//         .then(user => {
+//             dispatch(simpleLogin(user))
+//         })
+    
+    
+    
+
+
+
+
+    // const simpleLogin = user => ({ type: REGISTER_USER, user })
+
+    // export const registerUser = (dataToSubmit) => {
+    //     return dispatch => {
+    //        return axios.post(`http://localhost:4444/users/create`,dataToSubmit)
+    //         .then(response => response.data)
+    //         .then(user => {
+    //             dispatch(simpleLogin(user))
+    //         })
+    //     }
+    // } 
+
+
+
+
 
 
 
 
 
 export function loginUser(dataToSubmit){
-    const request = axios.get(`http://localhost:4444/users/login`,dataToSubmit)
+    console.log("Inside the action");
+    console.log(dataToSubmit);
+    console.log("outside the action");
+    const request = axios.post(`http://localhost:3333/users/login`,dataToSubmit,{
+        withCredentials: true
+        
+      
+    })
                 .then(response => response.data);
+                
 
     return {
         type: LOGIN_USER,
@@ -40,26 +100,49 @@ export function loginUser(dataToSubmit){
     }
 }
 
-
-
-
-// export function auth(){
-
-//     const request = axios.get(`${USER_SERVER}/auth`)
-//     .then(response => response.data);
-
-//     return {
-//         type: AUTH_USER,
-//         payload: request
-//     }
-
+// export function loginUser(dataToSubmit){
+//     return function (dispatch) {
+//         const request = axios.get(`http://localhost:4444/users/login`,dataToSubmit)
+//         return (dispatch)=>{
+//             function onSuccess(success){
+//                 dispatch({
+//                     type: LOGIN_USER,
+//                     payload:success
+//                 })
+//                 return success;
+//             }
+//             function onError(error) {
+//                 dispatch({
+//                     type:ERROR_GENERATED,
+//                     error
+//                 })
+//                 return error;
+//             }
+//             request.then(success=>onSuccess, error=>onError);
+//         }  
+//     };
 // }
+
+
+
+
+export function auth(){
+    console.log("inside the AUTH action")
+     const request = axios.get(`http://localhost:3333/users/auth`,{withCredentials: true})
+     .then(response => response.data);
+     console.log("inside after the AUTH action")
+     return {
+         type: AUTH_USER,
+         payload: request
+     }
+
+}
 
 
 
 // export function logoutUser(){
 
-//     const request = axios.get(`${USER_SERVER}/logout`)
+//     const request = axios.get(http://localhost:3333/users/login)
 //     .then(response => response.data);
 
 //     return {
@@ -72,88 +155,20 @@ export function loginUser(dataToSubmit){
 
 
 
-// export function addToCart(_id){
-
-//     const request = axios.post( `${USER_SERVER}/addToCart?productId=${_id}`)
-//     .then(response => response.data)
-
-//     return {
-//         type: ADD_TO_CART_USER,
-//         payload: request
-//     }
-// }
-
-
-
-
-
-
-
-// export function getCartItems(cartItems, userCart){
-
-//     const request = axios.get(`${PRODUCT_SERVER}/articles_by_id?id=${cartItems}&type=array`)
-//                     .then(response => {
-     
-//                         userCart.forEach(item=>{
-//                             response.data.forEach((k,i)=>{
-//                                 if(item.id === k._id){
-//                                     response.data[i].quantity = item.quantity;
-//                                 }
-//                             })
-//                         })
-//                         return response.data;
-//                     })
-                 
-
-//     return {
-//         type: GET_CART_ITEMS_USER,
-//         payload: request
-//     }
-
-// }
-
-
-
-
-
-
-// export function removeCartItem(id){
-
-//     const request = axios.get(`${USER_SERVER}/removeFromCart?_id=${id}`)
-//                     .then(response => {
-
-//                         response.data.cart.forEach(item=>{
-//                             response.data.cartDetail.forEach((k,i)=>{
-//                                 if(item.id === k._id){
-//                                     response.data.cartDetail[i].quantity = item.quantity;
-//                                 }
-//                             })
-//                         })
-//                             return response.data;
-//                     })
-
-//     return {
-//         type: REMOVE_CART_ITEM_USER,
-//         payload: request
-//     }
-
-// }
-
-
-
-
-
-
-
-// export function onSuccessBuy(data){ 
-//     const request = axios.post(`${USER_SERVER}/successBuy`,data)
-//                     .then(response => response.data);
-
-//     return {
-//         type: ON_SUCCESS_BUY_USER,
-//         payload: request
-//     }
-// }
+export function findArticle(dataToSubmit){
+    console.log("Inside findArticle action");
+    console.log(dataToSubmit);
+    console.log("outside findArticle action");
+    const request = axios.post(`http://localhost:3333/users/articlesearch`,dataToSubmit,{
+        withCredentials: true
+    })
+                .then(response => response.data);
+                
+    return {
+        type: FIND_ARTICLE,
+        payload: request
+    }
+}
 
 
 
@@ -164,17 +179,25 @@ export function loginUser(dataToSubmit){
 
 
 
-// export function updateUserData(dataToSubmit){
-//     const request = axios.post(`${USER_SERVER}/update_profile`,dataToSubmit)
-//                     .then(response => {
-//                         return response.data
-//                     });
+
+
+
+
+
+
+
+
+ //export function updateUserData(dataToSubmit){
+ //    const request = axios.post(http://localhost:3333/users/update_profile,dataToSubmit)
+ //                    .then(response => {
+ //                        return response.data
+ //                    });
     
-//     return {
-//         type: UPDATE_DATA_USER,
-//         payload: request
-//     }
-// }
+ //    return {
+ //        type: UPDATE_DATA_USER,
+ //        payload: request
+ //    }
+ //}
 
 
 

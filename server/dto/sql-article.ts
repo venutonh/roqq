@@ -1,8 +1,8 @@
 export class SqlArticle {
     article_id:number=0;
-    article_url:string='';
-    comment_id:number=0;
-    support_url_id:number=0;
-    star_rating:number=0;
+    article_title:string='';
     author_id:number=0;
+    article_url:string='';
+    article_main_url_id:number=0;
+    //article_divider_url_id:number=0;
 }

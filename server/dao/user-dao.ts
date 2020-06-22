@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { pool }  from "../util/dbConnection/databasePool";
 import { userConverter } from "../util/converters/userConverter";
 import { SqlUser } from '../dto/sql-user';
+//import { stringify } from 'querystring';
 
 
 
@@ -16,7 +17,9 @@ export async function createUser(
     accountTypeId: number
     ): Promise<number | any> {
     const client=await pool.connect();
+        accountTypeId =1;
     console.log(username, password_hash, email, accountTypeId);
+        
     try {
         const resp=await client.query(
             `
@@ -48,22 +51,35 @@ export async function createUser(
 
 
 
-// get a user by username/password
+// get a user by email/password
 export async function getUser(
-    password_hash: string,
+    password_hash: string, 
     email: string
     
-): Promise<User | any> {
+    ): Promise<User | any> {
+
+        console.log("password_hash: "+(typeof password_hash) );
+        console.log("email: " +(typeof email) );
+
+       
+       console.log("Inside DAO: " + password_hash + " and " + email);
+        
+
     const client=await pool.connect();
+    console.log("inside getUser: ", password_hash + ' ' + email);
     try {
-        const resp=await client.query(`
-            SELECT account_id, username, password_hash, 
-            email, account_type_id
+        const resp=await client.query(
+            `
+            SELECT account_id, username, 
+            password_hash, account_type_id
             FROM account
-            WHERE username=$1 AND password_hash=$2
+            WHERE password_hash=$1 AND email=$2
+            
             `, 
-            [password_hash, email]);
-            //console.log("Fuck1");
+            [password_hash, email]
+            );
+            console.log("Check Here 1");
+            //console.log(resp.rows[0]);
     
         /* const user: User[] = [];
         resp.rows.forEach((userResult: SqlUser) => {
@@ -71,14 +87,23 @@ export async function getUser(
             user.push(userConverter(userResult))
         }); */
                 //console.log(resp);
-                //console.log(resp.rows[0]);
-                console.log(userConverter(resp.rows[0]));
+                console.log('resp.rows[0]: ');
+                console.log(resp.rows[0]);
+                console.log('strange');
+                
+                //console.log(userConverter(resp.rows[0]));
                 //const user: User = new User;
-                const user = (userConverter(resp.rows[0]));
+                //const user = (userConverter(resp.rows[0]));
                 //console.log(user);
                 //console.log(resp.rows.push(userConverter)); 
             //console.log(user);
-            return user;
+
+            //const user = userConverter(resp.rows[0]);
+            //return user;
+
+            return (resp.rows[0]);
+            //return resp.rows[0].account_id;
+            
     } catch (error) {
         //console.log("Fuck2");
         console.log(error);
@@ -90,27 +115,28 @@ export async function getUser(
 }
 
 
-export async function getUserIdByUsername(
-    username: string
-): Promise<number | any>{
-    const client=await pool.connect();
-    try {
-        const resp=await client.query(`
-            SELECT account_id, username FROM account
-            WHERE username=$1
-            `,
-            [username]);
-            console.log('resp.rows: ' +resp.rows[0]);
-            console.log('resp.rows.account_id: ' +resp.rows[0].account_id);
-            return resp.rows[0].account_id;
-        } catch (error) {
-            console.log(error);
-            //return error.message;
-        } finally {
-        client.release();
-        }
+// export async function getUserIdByUsername(
+//     username: string,
+//     password_hash: string
+// ): Promise<number | any>{
+//     const client=await pool.connect();
+//     try {
+//         const resp=await client.query(`
+//             SELECT account_id, username FROM account
+//             WHERE username=$1
+//             `,
+//             [username, password_hash]);
+//             console.log('resp.rows: ' +resp.rows[0]);
+//             console.log('resp.rows.account_id: ' +resp.rows[0].account_id);
+//             return resp.rows[0].account_id;
+//         } catch (error) {
+//             console.log(error);
+//             //return error.message;
+//         } finally {
+//         client.release();
+//         }
 
-}
+// }
 
 
 
@@ -196,3 +222,71 @@ export async function getUserById(account_id: number): Promise<User | any>{
       client.release();
     }
   } */
+
+
+
+
+
+
+
+
+  // get a user by username
+export async function getUserByUsername(
+    username: string, 
+    account_type_id: number
+    //email: string
+    
+    ): Promise<User | any> {
+
+        //console.log("password_hash: "+(typeof password_hash) );
+        //console.log("email: " +(typeof email) );
+
+       //console.log("Inside DAO: " + password_hash + " and " + email);
+        
+    const client=await pool.connect();
+    //console.log("inside getUser: ", password_hash + ' ' + email);
+    try {
+        const resp=await client.query(
+            `
+            SELECT account_id, username, email, account_type_id
+            FROM account
+            WHERE username=$1 and account_type_id=$2
+            `, 
+            [username, account_type_id]
+            );
+            console.log("Check Here 1");
+            //console.log(resp.rows[0]);
+    
+        /* const user: User[] = [];
+        resp.rows.forEach((userResult: SqlUser) => {
+            console.log(userResult);
+            user.push(userConverter(userResult))
+        }); */
+                //console.log(resp);
+                console.log('resp.rows[0]: ');
+                console.log(resp.rows[0]);
+                console.log('strange');
+                
+                //console.log(userConverter(resp.rows[0]));
+                const user = userConverter(resp.rows[0]);
+                
+                //user = (userConverter(resp.rows[0]));
+                //console.log(user);
+                //console.log(resp.rows.push(userConverter)); 
+            //console.log(user);
+
+            //const user = userConverter(resp.rows[0]);
+            return user;
+
+            //return (resp.rows[0]);
+            //return resp.rows[0].account_id;
+            
+    } catch (error) {
+        //console.log("Fuck2");
+        console.log(error);
+        //return error.message;
+
+    } finally {
+        client.release();
+    }
+}

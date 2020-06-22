@@ -1,15 +1,19 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
+import  cookieParser  from 'cookie-parser';
 //import session from 'express-session';
 //import { reimbursementRouter } from './routers/reimbursement-router';
 import { userRouter } from './routers/user-router';
+import compress from 'compression';
+import cors from 'cors';
+//import {auth} from "./middleware/auth";
 
 
 
 const app=express();
 
-const port=4444;
+const port=3333;
 
 app.set('port', port);
 
@@ -35,18 +39,25 @@ app.set('port', port);
 //    next();
 //})
 
+//app.use(cors({ origin: 'http:/localhost:3000', credentials: true}));
+
 app.use(bodyParser.json({limit: '16mb'}))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(<any>cookieParser());
+//app.use(<any>compress({}));
 
-
-/* app.use((req, resp, next) => {
+app.use((req, resp, next) => {
     resp.header("Access-Control-Allow-Origin", `http://localhost:3000`);
     resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     resp.header("Access-Control-Allow-Credentials", "true");
     resp.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
     next();
-}) */
+});
+
+//(app.get("env") === "production")
 
 //app.use('/reimbursements', reimbursementRouter);
+
 app.use('/users', userRouter);
 
 const server = app.listen(port, () => {

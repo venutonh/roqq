@@ -30,7 +30,7 @@ class Login extends Component {
                     touched: false,
                     valdationMessage:''
                 },
-                password: {
+                password_hash: {
                     element: 'input',
                     value: '',
                     config: {
@@ -58,37 +58,37 @@ class Login extends Component {
             })
         }
 
-
-
-
         submitForm= (event) =>{
             event.preventDefault();
             
-            console.log('submitting form!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log('submitting form!!!!!!!!!!');
 
             let dataToSubmit = generateData(this.state.formdata,'login');
-            //let formIsValid = isFormValid(this.state.formdata,'login');
+            let formIsValid = isFormValid(this.state.formdata,'login');
+            console.log(dataToSubmit);
         
-            //if(formIsValid){
-                
-
+            if(formIsValid ){
+                console.log("form is valid dip shit!")
+                console.log(dataToSubmit);
                 this.props.dispatch(loginUser(dataToSubmit)).then(response =>{
-                    //if(response.payload.loginSuccess){
+                    if(response.payload.loginSuccess){
                         console.log(response.payload);
                         this.props.history.push('/user/dashboard');
-                   // }else{
-                       // this.setState({
-                       //     formError: true
-                       // })
-                //}
+                    }else{
+                        this.setState({
+                            formError: true
+                        })
+                }
                 });
-        
-            // } else {
-            //     this.setState({
-            //         formError: true
-            //     })
-            //}
+             } else {
+                 this.setState({
+                     formError: true
+                 })
+            }
         }
+
+
+       
 
 
     render() {
@@ -103,8 +103,8 @@ class Login extends Component {
                     />
 
                     <FormField
-                        id={'password'}
-                        formdata={this.state.formdata.password}
+                        id={'password_hash'}
+                        formdata={this.state.formdata.password_hash}
                         change={(element)=> this.updateForm(element)}
                     />
 

@@ -12,7 +12,7 @@ class Register extends Component {
         formError: false,
         formSuccess:false,
         formdata:{
-            name: {
+            username: {
                 element: 'input',
                 value: '',
                 config:{
@@ -43,7 +43,7 @@ class Register extends Component {
                 touched: false,
                 validationMessage:''
             },
-            password: {
+            password_hash: {
                 element: 'input',
                 value: '',
                 config:{
@@ -68,7 +68,7 @@ class Register extends Component {
                 },
                 validation:{
                     required: true,
-                    confirm: 'password'
+                    confirm: 'password_hash'
                 },
                 valid: false,
                 touched: false,
@@ -82,38 +82,44 @@ class Register extends Component {
         this.setState({
             formError: false,
             formdata: newFormdata
-        })
+        }) 
     }
 
-    submitForm= (event) =>{
-        event.preventDefault();
+    
+
+
+     submitForm= (event) =>{
+         event.preventDefault();
         
-        let dataToSubmit = generateData(this.state.formdata,'register');
-        let formIsValid = isFormValid(this.state.formdata,'register')
+         let dataToSubmit = generateData(this.state.formdata,'register');
+         let formIsValid = isFormValid(this.state.formdata,'register')
 
-        if(formIsValid){
-            this.props.dispatch(registerUser(dataToSubmit))
-            .then(response =>{ 
-                if(response.payload.success){
-                    this.setState({
-                        formError: false,
-                        formSuccess: true
-                    });
-                    setTimeout(()=>{
-                        this.props.history.push('/register_login');
-                    },3000)
-                } else {
-                    this.setState({formError: true})
-                }
-            }).catch(e => {
-                this.setState({formError: true})
-            })
-        } else {
-            this.setState({
-                formError: true
-            })
-        }
-    }
+         if(formIsValid){
+             this.props.dispatch(registerUser(dataToSubmit))
+            // will be .then in actions  
+             .then(response =>{ 
+                 if(response.payload.success){
+                     this.setState({
+                         formError: false,
+                         formSuccess: true
+                     });
+                     setTimeout(()=>{
+                         this.props.history.push('/register_login');
+                     },3000)
+                  } else {
+                     this.setState({formError: true})
+                 }
+            // will be caught in actions    
+             }).catch(e => {
+                 this.setState({formError: true})
+             })
+         } else {
+             this.setState({
+                 formError: true
+             })
+         }
+     }
+
 
     render() {
         return (
@@ -126,8 +132,8 @@ class Register extends Component {
                                 <div className="form_block_two">
                                     <div className="block">
                                         <FormField
-                                            id={'name'}
-                                            formdata={this.state.formdata.name}
+                                            id={'username'}
+                                            formdata={this.state.formdata.username}
                                             change={(element)=> this.updateForm(element)}
                                         />
                                     </div>
@@ -144,8 +150,8 @@ class Register extends Component {
                                 <div className="form_block_two">
                                     <div className="block">
                                         <FormField
-                                            id={'password'}
-                                            formdata={this.state.formdata.password}
+                                            id={'password_hash'}
+                                            formdata={this.state.formdata.password_hash}
                                             change={(element)=> this.updateForm(element)}
                                         />
                                     </div>
@@ -170,18 +176,7 @@ class Register extends Component {
                             </form>
                         </div>
                     </div>
-                </div>     
-
-                {/* <Dialog open={this.state.formSuccess}>
-                    <div className="dialog_alert">
-                        <div>Congratulations !!</div>
-                        <div>
-                            You will be redirected to the LOGIN in a couple seconds...
-                        </div>
-                    </div>
-                </Dialog> */}
-
-
+                </div>  
             </div>
         );
     }
