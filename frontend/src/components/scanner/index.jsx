@@ -4,16 +4,18 @@ import FormField from '../utils/Form/formfield';
 import { update, generateData, isFormValid } from '../utils/Form/formActions';
 import { withRouter } from 'react-router-dom';
 
-import { findArticle } from '../../actions/user_actions';
+import { findArticle } from '../../actions/article_actions';
 import { connect} from 'react-redux';
 import { Spinner } from 'reactstrap';
 
+import './scanner.css';
 
 
 class Scanner extends Component {
 
     state={
             isLoading: false,
+            userIdentity:-1,
             formError: false,
             formSuccuss: '',
             formdata:{
@@ -37,6 +39,19 @@ class Scanner extends Component {
     }
 
 
+    //  componentDidMount=()=>{
+
+    //      let userIdentity = (this.props.user.userData.userId ? 
+    //                              this.props.user.userData.userId 
+    //                          : -1);
+
+    //      this.setState({
+    //          userIdentity: userIdentity
+           
+    //      })
+    // }
+
+
     updateForm = (element) => {
         const newFormdata = update(element,this.state.formdata,'url_scanner');
         this.setState({
@@ -50,24 +65,30 @@ class Scanner extends Component {
     submitForm= (event) =>{
         event.preventDefault();
         
-        console.log('submitting URL!!!!!!!!!!');
+        //let generatedFormData = generateData(this.state.formdata,'url_scanner');
+        //const account_id = this.props.user.userData.userId;
 
-        let dataToSubmit = generateData(this.state.formdata,'url_scanner');
+        let dataToSubmit={
+            url_scanner: this.state.formdata.url_scanner.value,
+            //account_id: userIdentity
+        }
         let formIsValid = isFormValid(this.state.formdata,'url_scanner');
-        console.log(dataToSubmit);
-    
+       
         if(formIsValid ){
             this.setState({
                 isLoading:true
             })
 
-            console.log("URL form is valid dip shit!")
-            console.log("Url scanner data: ");
-            console.log(dataToSubmit);
             this.props.dispatch(findArticle(dataToSubmit)).then(response =>{
                 if(response.payload.urlSuccess){
-                    console.log(response.payload);
                     this.props.history.push('/user/writereview');
+                } if (response.payload.urlIneligible) {
+                    if(!this.props.user.userData){
+                        this.props.history.push('/register_login');
+                    }else{
+                        const id=response.payload.article_id;
+                        this.props.history.push(`/article/review/${id}`);
+                    }
                 }else{
                     this.setState({
                         formError: true,
@@ -81,11 +102,12 @@ class Scanner extends Component {
              })
         }
     }
-
-
-
-
     render() {
+
+        // console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+        // console.log('this.props.user.userData.userId:')
+        // console.log(this.props.user.userData.userId)
+
         if(this.state.loading){
             return (
                 <div className="main_loader">
@@ -106,6 +128,7 @@ class Scanner extends Component {
                         id={'url_scanner'}
                         formdata={this.state.formdata.url_scanner}
                         change={(element)=> this.updateForm(element)}
+                        style={{'width':'20em'}}
                     />
                 
                 <button onClick={(event)=> this.submitForm(event)}>
@@ -117,11 +140,11 @@ class Scanner extends Component {
         );
     }
 }
-    const mapStateToProps=(state)=>{
-        return {
-            user: state.user
-        }
+const mapStateToProps=(state)=>{
+    return {
+        user:    state.user
+        
     }
-
+}
 
 export default connect(mapStateToProps)(withRouter(Scanner));

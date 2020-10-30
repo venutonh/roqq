@@ -8,7 +8,8 @@ export function articleConverter(ar:SqlArticle){
         ar.author_id,
         ar.article_url,
         ar.article_main_url_id,
-       // ar.article_divider_url_id
+        ar.date_posted
+       
     );
 
 }

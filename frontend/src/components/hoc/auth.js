@@ -13,24 +13,21 @@ export default function (ComposedClass, reload, adminRoute = null) {
         }
 
         componentDidMount(){
-            console.log("INSIDE FrontEnd AUTH before dispatch")
+            //console.log("INSIDE FrontEnd AUTH before dispatch")
             this.props.dispatch(auth()).then(response =>{
                 //console.log("back in frontend");
                 let user = this.props.user.userData;
-                console.log(user);
-                console.log("YEEEESSSSSSS");
-                console.log(this.props.user.userData);
+                
 
-                console.log("!!!!!!!NEEED TO SEE THIS LOG: INSIDE FrontEnd AUTH after dispatch");
                 if(!user.isAuth){
-                    if(reload){
+                    if(reload==='NegRedirect'){
                         this.props.history.push('/register_login')
                     }
                 } else{
                     if(adminRoute && !user.isAdmin){
                         this.props.history.push('/user/dashboard')
                     } else{
-                        if(reload === false){
+                        if(reload === 'PosRedirect'){
                             this.props.history.push('/user/dashboard')
                         }
                     }

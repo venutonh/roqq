@@ -1,0 +1,68 @@
+
+
+.review_single_review{
+    border:4px solid gray;
+    display:grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,2fr) minmax(0,1fr);
+    grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+    height:400px;
+    width:900px;
+    margin-left:60px;
+}
+
+
+.review_username{
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+.review_review_value{
+    grid-column: 2/3;
+    grid-row: 3/5;
+    border:2px solid gray;
+    height:250px;
+}
+
+.review_total_avg{
+    grid-column-start: 2;
+    grid-row-start: 1;
+
+}
+
+.review_detail_rating{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    
+}
+
+.review_prose_rating{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    margin-left:100px;
+
+}
+
+.review_sg_rating{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    margin-left:200px;
+}
+
+.review_like_it_rating{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    margin-left:350px;
+}
+
+.review_total_rating{
+    grid-column-start: 2;
+    grid-row-start: 2;
+    margin-left:500px;
+
+}
+
+.review#_support_links{
+    grid-column-start: 4;
+    grid-row:2/5 ;
+
+}

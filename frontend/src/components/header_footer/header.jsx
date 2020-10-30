@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './header.css';
 
 import { 
     UncontrolledDropdown, 
@@ -16,10 +17,17 @@ class Header extends Component {
         return (
             <header className="header">
               <Navbar
-                  color="light"
-                  light expand
+                  className="nav"
+                  // style={{
+                  //   //backgroundImage: 'linear-gradient(to right,  yellow, green)',
+                  //  // backgroundImage: 'linear-gradient(red, yellow, green)',
+                  //  background: 
+                  //  'linear-gradient(to right, rgba(66,255,0,.5) 60%, rgba(18,118,0,.5) 40%), linear-gradient(to bottom, rgba(208,118,200,.5) 0%, rgba(218,118,200,.5) 100%) '
+                  // }}
+                  //color='#6BF643'
+                  dark expand
               >
-                  <NavbarBrand href="/">ROQQ</NavbarBrand>
+                  <NavbarBrand href="/" className="headstone">ROQQ</NavbarBrand>
                   <Nav className="mr-auto" navbar>
               <NavItem>
                 <NavLink href="/components/">Components</NavLink>

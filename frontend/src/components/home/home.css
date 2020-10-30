@@ -1,0 +1,26 @@
+
+
+.home_container {
+    display: grid;
+
+    width:100vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+} 
+
+.scanner {
+    grid-column-start: 3;
+    grid-column-end:5;
+    grid-row-start: 1;
+    background:lightblue;
+
+
+}
+
+
+.side_nav {
+    grid-column-start: 1;
+    grid-row:1/6;
+    width: 250px;
+    background:lightpink;
+}

@@ -3,8 +3,8 @@ import {
     //ERROR_GENERATED,
     LOGIN_USER,
     REGISTER_USER,
-    AUTH_USER,
-    FIND_ARTICLE
+    AUTH_USER
+    
     
 } from './types';
 
@@ -27,9 +27,9 @@ import {
 
 
 export function registerUser(dataToSubmit){
-    console.log("Inside the action");
-    console.log(dataToSubmit);
-    console.log("outside the action");
+    //console.log("Inside the action");
+    //console.log(dataToSubmit);
+    //console.log("outside the action");
 
 
     return{ 
@@ -83,9 +83,9 @@ export function registerUser(dataToSubmit){
 
 
 export function loginUser(dataToSubmit){
-    console.log("Inside the action");
-    console.log(dataToSubmit);
-    console.log("outside the action");
+    //console.log("Inside the action");
+    //console.log(dataToSubmit);
+    //console.log("outside the action");
     const request = axios.post(`http://localhost:3333/users/login`,dataToSubmit,{
         withCredentials: true
         
@@ -127,10 +127,10 @@ export function loginUser(dataToSubmit){
 
 
 export function auth(){
-    console.log("inside the AUTH action")
+    //console.log("inside the AUTH action")
      const request = axios.get(`http://localhost:3333/users/auth`,{withCredentials: true})
      .then(response => response.data);
-     console.log("inside after the AUTH action")
+     //console.log("inside after the AUTH action")
      return {
          type: AUTH_USER,
          payload: request
@@ -152,23 +152,6 @@ export function auth(){
 
 // }
 
-
-
-
-export function findArticle(dataToSubmit){
-    console.log("Inside findArticle action");
-    console.log(dataToSubmit);
-    console.log("outside findArticle action");
-    const request = axios.post(`http://localhost:3333/users/articlesearch`,dataToSubmit,{
-        withCredentials: true
-    })
-                .then(response => response.data);
-                
-    return {
-        type: FIND_ARTICLE,
-        payload: request
-    }
-}
 
 
 

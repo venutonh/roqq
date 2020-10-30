@@ -5,6 +5,11 @@ import  cookieParser  from 'cookie-parser';
 //import session from 'express-session';
 //import { reimbursementRouter } from './routers/reimbursement-router';
 import { userRouter } from './routers/user-router';
+import { articleRouter } from './routers/article-router';
+import { authorRouter } from './routers/author-router';
+import { networkRouter } from './routers/network-router';
+import { tagsRouter } from './routers/tags-router';
+import { collapseRouter } from './routers/collapse-router';
 import compress from 'compression';
 import cors from 'cors';
 //import {auth} from "./middleware/auth";
@@ -59,6 +64,11 @@ app.use((req, resp, next) => {
 //app.use('/reimbursements', reimbursementRouter);
 
 app.use('/users', userRouter);
+app.use('/article', articleRouter);
+app.use('/author', authorRouter);
+app.use('/network', networkRouter);
+app.use('/tags', tagsRouter);
+app.use('/collapse', collapseRouter);
 
 const server = app.listen(port, () => {
   console.log(`App is running at http://localhost:${port}`);

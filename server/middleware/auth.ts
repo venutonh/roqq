@@ -1,40 +1,35 @@
 import { NextFunction, Request, Response  } from "express";
 import { findByToken } from "../controllers/token/findByToken";
-import { getUserByUsername } from "../dao/user-dao";
+import { getUserByUsernameAndId } from "../dao/user-dao";
 
 
 
 export let auth = 
     async (req: Request, resp: Response, next: NextFunction) => {
      
-    console.log("INSIDE Auth-er, BEFORE FINDByToken");
+    console.log("INSIDE AUTH")
+
     let token = (<any>req).cookies.k_max; 
     //let newToken = String(token);
-    console.log(token);
-    console.log("INSIDE Auth-er, BEFORE FINDByToken");
 
     const theToken=findByToken(token);
     //return getUserByUsername(theToken.username, theToken.account_id_type);
     
-    console.log("answer: "+getUserByUsername(theToken.username, theToken.account_id_type));
-   //await
+    //console.log("answer: "+getUserByUsernameAndId(theToken.username, theToken.account_id));
+   
  try{
-   let stuff:any = await getUserByUsername(theToken.username, theToken.account_id_type);
+   let stuff:any = await getUserByUsernameAndId(theToken.username, theToken.account_id);
 
-    console.log("stuff: "+ stuff);
-    console.log(stuff);
     //resp.end();
-    req.body=stuff;
-    console.log("req: "+ req.body);
-    console.log(req.body);
-    console.log("__________________(inside auth.ts)");
-
+    
     if (stuff === undefined){
         resp.json({
             isAuth:false,
             error: true
         })
     } else{
+        req.body=stuff;
+
 
         next();
     }
@@ -42,7 +37,7 @@ export let auth =
         console.log("auth.ts error");
         console.log(err);
         resp.sendStatus(500);
-        console.log("auth.ts error");
+        
       }
 } 
 

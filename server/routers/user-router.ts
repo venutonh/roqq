@@ -1,15 +1,13 @@
 import { Request, Response } from "express";
 import * as express from "express";
 import * as userDao from "../dao/user-dao";
-import * as articleDao from "../dao/article-dao";
 import { Router } from "express";
 import {auth} from "../middleware/auth";
 
 import { generateToken } from '../controllers/token/generateToken';
 
 
-//server\controllers\token\generateToken.js
-//server\routers\user-router.ts
+
 
 
 //const userRouter = new Router();
@@ -19,51 +17,23 @@ export const userRouter = express.Router();
  * authenticated user route
  */
  userRouter.get("/auth", auth, (req: Request, resp: Response)=>{
+    console.log("# INSIDE USER-ROUTER AUTH #")
+
     resp.status(200).json({
       isAdmin: (<any>req).body.accountRoleId === 3 ? true : false,
       isAuth: true,
       username: (<any>req).body.username,
-      email: (<any>req).body.email
-      //,
-      //account_role: (<any>req).body.account_role_id
+      email: (<any>req).body.email,
+      userId: (<any>req).body.userId,
+      userHistory:{
+        userReviews:(<any>req).body.userReviews,
+        userVotes:(<any>req).body.userVotes
+      }
+  
     })
-    console.log("username: "+(<any>req).body.username)
-    console.log("email: "+(<any>req).body.email)
-    //console.log("account_role: "+(<any>req).body.accountRoleId)
  })
 
 
-/**
- * Find Article title and author
- */
-userRouter.post("/articlesearch", async (req:Request, resp:Response)=>{
-  console.log("starting article search");
-  console.log((<any>req).body.url_scanner);
-  try {
-    const article = await articleDao.findArticle(
-      (<any>req).body.url_scanner
-    );
-    console.log("ArticleSearch article result: ");
-    console.log(article);
-    resp.status(200).json({
-      urlSuccess: true,
-      title: article.articleTitle,
-      author: article.author,
-      articleUrl: article.articleUrl,
-      articleMainUrl: article.articleMainUrl
-
-    });
-
-
-    
-   
-    resp.end();
-
-  }catch (err) {
-    console.log(err);
-    resp.sendStatus(500);
-  }
-})
 
 
 
@@ -85,45 +55,30 @@ userRouter.get("/all", async (req: Request, resp: Response) => {
 
 
 
-
+//if (user && req.session) {
+      //req.session.user = user;
 userRouter.post("/login", async (req:Request, resp: Response) => {
+
+  console.log("inside user-router login")
+
   try {
-    //console.log("Attempting to login user");
-    //console.log(req.body.email);
-    //console.log(req.body.password_hash);
-    console.log("inside route");
 
     const user = await userDao.getUser(
       (<any>req).body.password_hash,
       (<any>req).body.email
-      
     );
-    //console.log("check variables:")
-    //console.log(req.body.email);
-    //console.log(req.body.password_hash);
-    //if (user && req.session) {
-      //req.session.user = user;
-    //console.log("Got User");
-    //console.log(user);
-    console.log("after DAO but before cookie");
+     
+    //console.log('user.account_id:');
+    //console.log(user.account_id);
+   // console.log('user.username:');
+   // console.log(user.username);
 
-    const token: string = generateToken(user.username, user.account_type_id);
-    console.log(token);
-    console.log("token made, will send");
-
-
-    console.log(user.account_type_id);
-    console.log(user.username);
-    //resp.cookie('k_max', token);
-
-    //console.log("cookie set");
-
-      
-
-    //resp.status(201);
+    const token: string = generateToken(user.username, user.account_id);
+    
     resp.cookie('k_max', token).status(200).json({
       loginSuccess: true,
-      username: user.username});
+    
+    });
 
     console.log("cookie sent");
     //resp.json(user);
@@ -145,10 +100,12 @@ userRouter.post("/login", async (req:Request, resp: Response) => {
 /**
  * Find user by id
  */
-userRouter.get("/accountidfind/:account_id", async (req: Request, resp: Response) => {
-  const account_id = (<any>+req).params.account_id;
-  console.log(`retrieving user with id ${account_id}`);
+userRouter.get('/accountidfind/:account_id', async (req: Request, resp: Response) => {
+  const account_id = (<any>req).params.account_id;
+  //console.log(`retrieving user with id ${account_id}`);
   try {
+    console.log('account_id:')
+    console.log(account_id)
     const user = await userDao.getUserById(account_id);
     if (user !== undefined) {
       resp.json(user);
@@ -181,6 +138,39 @@ userRouter.post('/create',auth, async (req: Request, resp: Response) => {
   }
 })
  
+
+
+
+
+
+
+
+/**
+ * check user voter eligibility
+  */
+ userRouter.post('/geteligibility',auth, async (req: Request, resp: Response) => {
+  try {
+    console.log("Checking to see which articles the user is able to vote or review");
+    const eligible = await userDao.getEligibility(
+      (<any>req).body.account_id,
+      (<any>req).body.username 
+    );
+     
+      resp.status(200).json({
+        eligible
+  
+      });
+    
+  } catch (err) {
+    console.log(err);
+    resp.sendStatus(500);
+  }
+})
+
+
+
+
+
 /**
 * Get user id by username
 */

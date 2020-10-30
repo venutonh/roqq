@@ -7,7 +7,9 @@ export function userConverter(u: SqlUser){
         u.username,
         u.password_hash,
         u.email,
-        u.account_type_id
+        u.account_type_id,
+        u.user_reviews,
+        u.user_votes
         
         );
 

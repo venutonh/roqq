@@ -7,15 +7,16 @@ var SEPARATOR: string;
 
 SEPARATOR = '/';
 
-export function generateToken(username:string, account_type_id:number){
+export function generateToken(username:string, account_id:number){
+
+    console.log("inside controllers-token generateToken")
 
     //const jwtExpirySeconds = 300;
-    //const separate: string = SEPARATOR;
+
     //const secret: string = process.env.SECRET;
     const secret: string = 'theFuckDoYouWant?';
 
-    const account:string = String(account_type_id);
-
+    const account:string = String(account_id);
     const identification: string = username +SEPARATOR+ account;
 
 
@@ -38,9 +39,8 @@ export function parseToken(decode:string){
 
     return{
         username: parsedDecode[0],
-        account_id_type: parsedDecode[1]
+        account_id: parsedDecode[1]
     };
 
 };
 
-//export module generateToken;

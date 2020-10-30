@@ -9,7 +9,7 @@ const RegisterLogin = () => {
                 <div className="register_login_container">
                     <div className="left">
                         <h1>New Members</h1>
-                        <p>Would you like to sigh up and join the leading fact warriors?</p>
+                        <p>Would you like to sign up and join the leading fact warriors?</p>
                         <Button 
                             color="secondary"
                             size="sm"
@@ -25,8 +25,6 @@ const RegisterLogin = () => {
                         <p>If you already have any account please log in</p>
                         <Login/>
                     </div>
-
-
                 </div>
             </div>
         </div>
