@@ -128,6 +128,10 @@ class ArticlePage extends Component {
         }
     }
 
+    handleReviewId=(review)=>{
+
+        this.setState({value: review})
+    }
 
 
     render() {
@@ -185,6 +189,7 @@ class ArticlePage extends Component {
                                  this.props.article.articleStats.article_id
                              :null
                         }
+                        handleReviewId={(review)=> this.handleReviewId(review)}
 
                     />
                     {/* <ArticleTags           article={this.props.article.articleStats.topTags}/> */}

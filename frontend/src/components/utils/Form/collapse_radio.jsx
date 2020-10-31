@@ -95,20 +95,13 @@ class CollapseRadio extends Component {
                     <ListGroupItem onClick={this.handleClick}>
                         <ListGroupItemText className="collapse_title">
                             {this.props.title} <div className="arrow">{this.handleArrow()}</div>
-                            
-                        </ListGroupItemText>   
-                            
+                        </ListGroupItemText>     
                     </ListGroupItem>
-
-
                     <Collapse isOpen={this.state.open}>
                         <ListGroup>
-                                { this.renderList() }
-                                
+                                { this.renderList() }     
                         </ListGroup>
-
                     </Collapse>
-
                 </ListGroup>
             </div>
         );
